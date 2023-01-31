@@ -3,19 +3,26 @@ import Control from "./components/Control";
 import ListStudent from "./components/ListStudent";
 import FormStudent from "./components/Form1";
 import { useSelector } from "react-redux";
+import { routes } from "./routes";
+import { Route, Routes } from "react-router-dom";
+import Layout from "./Layout";
 
 function App() {
-    const toggleForm = useSelector((state) => state.toggleForm);
     return (
-        <div className="row">
-            <div className="col-lg-7 grid-margin stretch-card">
-                <div className="card">
-                    <Control />
-                    <ListStudent />
-                </div>
-            </div>
-            {toggleForm && <FormStudent />}
-        </div>
+        <>
+            <Layout>
+                <Routes>
+                    {routes &&
+                        routes.map((route, index) => (
+                            <Route
+                                path={route.path}
+                                element={route.component}
+                                key={index}
+                            />
+                        ))}
+                </Routes>
+            </Layout>
+        </>
     );
 }
 

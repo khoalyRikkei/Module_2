@@ -1,11 +1,13 @@
 import React, { Component, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { act_toggleForm, act_updateForm } from "../store/action";
-import * as actionType from "../constants";
+import * as actionTypes from "../constants";
+import moment from "moment/moment";
 
 export default function FormStudent() {
     const dispatch = useDispatch();
     const studentForm = useSelector((state) => state.fillForm);
+    const listStudent = useSelector((state) => state.getData);
     const [student, setStudent] = useState(studentForm);
     useEffect(() => {
         setStudent(studentForm);
@@ -18,17 +20,38 @@ export default function FormStudent() {
     };
 
     const handleSubmitForm = () => {
-        const newData = studentForm.map((item) => {
+        const dulicateCode = listStudent.find(
+            (item) => item.code === student.code
+        );
+        const newUpdate = listStudent?.map((item) => {
             if (item.code === student.code) {
-                return student;
+                const { actionType, ...other } = student;
+                return other;
             }
             return item;
         });
-        dispatch(act_toggleForm(true));
+
+        // Validate create student code dulicate
+        if (student?.actionType === "create" && dulicateCode) {
+            return alert(
+                "Student code already exists, please create a new student code"
+            );
+        }
+        dispatch(act_toggleForm(false));
+        if (student?.actionType === "create") {
+            const { actionType, ...other } = student;
+            const newData = [...listStudent, { ...other }];
+            return dispatch(
+                act_updateForm({
+                    students: newData,
+                    actionType: actionTypes.CREATE_STUDENT,
+                })
+            );
+        }
         dispatch(
             act_updateForm({
-                students: newData,
-                actionType: actionType.UPDATE_STUDENT,
+                students: newUpdate,
+                actionType: actionTypes.UPDATE_STUDENT,
             })
         );
     };
@@ -47,8 +70,9 @@ export default function FormStudent() {
                                     type="text"
                                     className="form-control"
                                     value={student.code}
-                                    readOnly={student.actionType === "view"}
+                                    readOnly={student.actionType !== "create"}
                                     name="code"
+                                    onChange={handleOnChangeForm}
                                 />
                             </div>
                         </div>
@@ -75,7 +99,7 @@ export default function FormStudent() {
                                 <input
                                     type="text"
                                     className="form-control"
-                                    readOnly={student.actionType === "view"}
+                                    readOnly
                                     value={
                                         student.doB
                                             ? new Date().getFullYear() -
@@ -94,7 +118,7 @@ export default function FormStudent() {
                             <div className="col-sm-9">
                                 <select
                                     className="form-control"
-                                    value={student.gender}
+                                    value={student.gender ? student.gender : 1}
                                     readOnly={student.actionType === "view"}
                                     name="gender"
                                     onChange={handleOnChangeForm}
@@ -112,10 +136,13 @@ export default function FormStudent() {
                                 <input
                                     className="form-control"
                                     placeholder="dd/mm/yyyy"
-                                    value={student.doB}
+                                    value={moment(student.doB).format(
+                                        "YYYY-MM-DD"
+                                    )}
                                     readOnly={student.actionType === "view"}
                                     name="doB"
                                     onChange={handleOnChangeForm}
+                                    type="date"
                                 />
                             </div>
                         </div>
@@ -126,7 +153,7 @@ export default function FormStudent() {
                             <div className="col-sm-9">
                                 <select
                                     className="form-control"
-                                    value={student.poB}
+                                    value={student.poB ? student.poB : "01"}
                                     readOnly={student.actionType === "view"}
                                     name="poB"
                                     onChange={handleOnChangeForm}

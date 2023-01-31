@@ -1,17 +1,28 @@
 import React, { Component } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { UPDATE_STUDENT } from "../constants";
-import { act_fillForm, act_toggleForm } from "../store/action";
+import { DELETE_STUDENT } from "../constants";
+
+import { act_fillForm, act_toggleForm, act_updateForm } from "../store/action";
 function ListStudent() {
     const dispatch = useDispatch();
     const listStudent = useSelector((state) => state.getData);
-    const handleViewEdit = ({ student, actionType }) => {
+    const handleActionForm = ({ student, actionType }) => {
+        if (actionType === "delete") {
+            const newData = listStudent?.filter(
+                (item) => item.code !== student.code
+            );
+            dispatch(act_toggleForm(false));
+            return dispatch(
+                act_updateForm({
+                    students: newData,
+                    actionType: DELETE_STUDENT,
+                })
+            );
+        }
         dispatch(act_toggleForm(true));
         dispatch(act_fillForm({ student, actionType }));
     };
-    const handleDelete = (student) => {
-        console.log(student);
-    };
+
     return (
         <div className="card-body">
             <h3 className="card-title">Danh sách sinh viên</h3>
@@ -47,7 +58,7 @@ function ListStudent() {
                                                 type="button"
                                                 className="btn btn-danger btn-icon-text"
                                                 onClick={() =>
-                                                    handleViewEdit({
+                                                    handleActionForm({
                                                         student,
                                                         actionType: "view",
                                                     })
@@ -59,7 +70,7 @@ function ListStudent() {
                                                 type="button"
                                                 className="btn btn-warning btn-icon-text"
                                                 onClick={() =>
-                                                    handleViewEdit({
+                                                    handleActionForm({
                                                         student,
                                                         actionType: "edit",
                                                     })
@@ -71,7 +82,7 @@ function ListStudent() {
                                                 type="button"
                                                 className="btn btn-success btn-icon-text"
                                                 onClick={() =>
-                                                    handleDelete({
+                                                    handleActionForm({
                                                         student,
                                                         actionType: "delete",
                                                     })

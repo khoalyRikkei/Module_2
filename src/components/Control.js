@@ -7,7 +7,19 @@ function Control() {
     const dispatch = useDispatch();
     const onToggleForm = () => {
         dispatch(act_toggleForm(true));
-        dispatch(act_fillForm());
+        dispatch(
+            act_fillForm({
+                student: {
+                    code: "",
+                    name: "",
+                    gender: "",
+                    doB: "",
+                    poB: "",
+                    address: "",
+                },
+                actionType: "create",
+            })
+        );
     };
     return (
         <div className="card-header">
@@ -29,6 +41,7 @@ function Control() {
                             className="form-control"
                             placeholder="Search Here"
                             title="Search here"
+                            defaultValue={""}
                         />
                         <button className="btn btn-primary btn-icon-text">
                             Tìm kiếm
