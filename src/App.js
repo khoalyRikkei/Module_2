@@ -6,22 +6,31 @@ import { useSelector } from "react-redux";
 import { routes } from "./routes";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./Layout";
+import PostDeTail from "./pages/PostManager/postDetail";
+import Header from "./Layout/Header";
 
 function App() {
     return (
         <>
-            <Layout>
-                <Routes>
-                    {routes &&
-                        routes.map((route, index) => (
+            <Header />
+            <Routes>
+                {routes &&
+                    routes.map((route, index) => (
+                        <>
                             <Route
                                 path={route.path}
                                 element={route.component}
                                 key={index}
-                            />
-                        ))}
-                </Routes>
-            </Layout>
+                            ></Route>
+                            {route.children && (
+                                <Route
+                                    path={route.children.path}
+                                    element={<PostDeTail />}
+                                />
+                            )}
+                        </>
+                    ))}
+            </Routes>
         </>
     );
 }

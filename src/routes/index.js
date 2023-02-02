@@ -1,6 +1,7 @@
 import ListStudents from "../pages/ListStudent";
 import NotFoundPage from "../pages/NotFoundPage";
 import PostManager from "../pages/PostManager";
+import PostDeTail from "../pages/PostManager/postDetail";
 
 export const routes = [
     {
@@ -10,17 +11,21 @@ export const routes = [
     },
     {
         title: "Manage Student",
-        path: "/list-students",
+        path: "list-students",
         component: <ListStudents />,
     },
     {
         title: "Manage Post",
-        path: "/manage-post",
+        path: "manage-post",
         component: <PostManager />,
+        children: {
+            path: "manage-post/:id",
+            component: <PostDeTail />,
+        },
     },
     {
         title: "Not Found Page",
-        path: "/*",
+        path: "*",
         component: <NotFoundPage />,
     },
 ];

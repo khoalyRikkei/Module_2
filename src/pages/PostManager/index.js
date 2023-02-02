@@ -3,9 +3,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Modal, Toast, Button, Form } from "react-bootstrap";
 import ToastContainer from "react-bootstrap/ToastContainer";
-const baseUrl = "https://63d9c85819fffcd620bb171f.mockapi.io/posts";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { baseUrl } from "../../util/baseUrl";
 
 export default function PostManager() {
+    const navigate = useNavigate();
     const [listPost, setListPost] = useState("");
     const [modalToggle, setModalToggle] = useState(false);
     const [toast, setToast] = useState({
@@ -17,10 +19,10 @@ export default function PostManager() {
     });
     const [postForm, setPostForm] = useState("");
     useEffect(() => {
-        getData();
+        getPost();
     }, []);
 
-    const getData = () => {
+    const getPost = () => {
         axios
             .get(baseUrl)
             .then((res) => {
@@ -43,7 +45,7 @@ export default function PostManager() {
                 .put(baseUrl + "/" + postForm.id, postForm)
                 .then((res) => {
                     setModalToggle(false);
-                    getData();
+                    getPost();
                     setToast({
                         status: true,
                         msg: "Update successfully",
@@ -60,7 +62,7 @@ export default function PostManager() {
                 .post(baseUrl, postForm)
                 .then((res) => {
                     setModalToggle(false);
-                    getData();
+                    getPost();
                     setToast({
                         status: true,
                         msg: "Create successfully",
@@ -80,7 +82,7 @@ export default function PostManager() {
         axios
             .delete(baseUrl + "/" + id)
             .then((res) => {
-                getData();
+                getPost();
                 setToast({
                     status: true,
                     msg: "Delete successfully",
@@ -137,10 +139,15 @@ export default function PostManager() {
                                     <td style={{ whiteSpace: "normal" }}>
                                         {post.title}
                                     </td>
-                                    <td style={{ whiteSpace: "normal" }}>
-                                        {post.content}
-                                    </td>
+
                                     <td>
+                                        <Link
+                                            className="btn btn-primary me-1"
+                                            to={post.id}
+                                        >
+                                            View Detail
+                                        </Link>
+
                                         <button
                                             className="btn btn-primary "
                                             onClick={() => handleEditPost(post)}
@@ -160,6 +167,7 @@ export default function PostManager() {
                             ))}
                     </tbody>
                 </table>
+                <Outlet />
             </div>
         </>
     );
