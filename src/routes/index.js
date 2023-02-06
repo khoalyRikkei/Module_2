@@ -1,4 +1,5 @@
 import Home from "../pages/Home";
+import ExampleMemo from "../pages/Memo";
 import ExampleUseCallback from "../pages/UseCallback";
 import ExampleUseContext from "../pages/UseContext";
 import ExampleUseEffect from "../pages/UseEffect";
@@ -15,31 +16,36 @@ export const routes = [
     {
         title: "useState",
         component: <ExampleUseState />,
-        path: "state",
+        path: "use-state",
     },
     {
         title: "useEffect",
         component: <ExampleUseEffect />,
-        path: "effect",
+        path: "use-effect",
     },
     {
         title: "useMemo",
         component: <ExampleUseMemo />,
+        path: "use-memo",
+    },
+    {
+        title: "memo",
+        component: <ExampleMemo />,
         path: "memo",
     },
     {
         title: "useCallback",
         component: <ExampleUseCallback />,
-        path: "callback",
+        path: "use-callback",
     },
     {
         title: "useReducer",
         component: <ExampleUseReducer />,
-        path: "reducer",
+        path: "use-reducer",
     },
     {
         title: "useContext",
         component: <ExampleUseContext />,
-        path: "context",
+        path: "use-context",
     },
 ];

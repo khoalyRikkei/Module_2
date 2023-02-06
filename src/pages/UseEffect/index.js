@@ -16,6 +16,8 @@ export default function ExampleUseEffect() {
         
      */
 
+    console.log("Before Rendering...1");
+
     // - Nếu dependency là rỗng, thì chỉ được gọi ở lần đầu tiên khi được mount
     useEffect(() => {
         console.log("Render once called when mount");
@@ -43,9 +45,10 @@ export default function ExampleUseEffect() {
     useEffect(() => {
         console.log("Value of count", count);
     }, [count]);
-
+    console.log("Before Rendering...2");
     return (
         <>
+            {console.log("Rendering...")}
             <button
                 onClick={() => setMark(mark + 1)}
                 className="btn btn-primary m-1"
