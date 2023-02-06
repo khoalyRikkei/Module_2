@@ -1,0 +1,11 @@
+.nav-header {
+    text-decoration: none;
+}
+.nav-header:visited {
+    color: rgba(41, 41, 236, 0.993);
+}
+
+.active {
+    color: green !important;
+    font-weight: 700;
+}
