@@ -17,7 +17,6 @@ export default function ExampleUseCallback() {
 
      useCallback và useMemo Hook là tương tự nhau. Sự khác biệt chính là useMemo trả về một giá trị được ghi nhớ và useCallback trả về một hàm được ghi nhớ.
      
-
      */
     const [count, setCount] = useState(0);
     const [todos, setTodos] = useState([]);
@@ -30,7 +29,7 @@ export default function ExampleUseCallback() {
     }, [todos]);
     return (
         <div>
-            <h2>Rikkei Academy - React Hooks - useCallback(callback,[])</h2>
+            <h2>React Hooks - useCallback</h2>
             <>
                 <Todos todos={todos} addTodo={addTodo} />
                 <hr />

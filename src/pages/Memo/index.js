@@ -58,12 +58,16 @@ const TodoList2 = memo(function TodoList2({ todoList }) {
 
 // Nâng cao
 function arePropsEqual(oldProps, newProps) {
+    // Function chấp nhận 2 đối số truyền
     console.log("check old props: ", oldProps);
     console.log("check new props: ", newProps);
+
     return (
         oldProps.todoList.length === newProps.todoList.length &&
         oldProps.todoList.every((oldProp, index) => {
             return oldProp === newProps.todoList[index];
         })
     );
+    // Nếu return là true ==> component sẽ không re-render
+    // Nếu return là false ==> component sẽ re-render
 }
