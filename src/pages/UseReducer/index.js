@@ -2,7 +2,18 @@ import { useReducer } from "react";
 
 export default function ExampleUseReducer() {
     const [state, dispatch] = useReducer(reducer, { mark: 10 });
-    const [stateOrder, dispatchOrder] = useReducer(reducerOrder, orderList);
+
+    /**
+     * Dùng useReducer để quản lý các state một cách hiệu quả hơn. Ví dụ như fetch data từ API: status, data, error
+     * @syntax const [state, dispatch] = useReducer(reducer, initialArg, init?)
+     * @param reducer: là một function được tạo ra để cập nhật trạng thái của state tùy thuộc vào hành động được đưa vào. Có hai đối số là state và action
+     * @param initialArg: giá trị ban đầu của state, có thể thuộc kiểu non-primitive hoặc primitive
+     * @param init (optional): là hàm khởi tạo tính toán giá trị initiaArg trước khi làm giá trị ban đầu của state
+     * @param useReducer sẽ return 2 giá trị: 1. state hiện tại (lần đầu sẽ là initialArg), 2. function dispatch giúp cập nhật hành động và re-render
+     * @param dispatch là một function được trả về bởi useReducer, dispatch thêm vào các đối sối để reducer dựa vào đó cập nhật lại state
+     *
+     *
+     */
 
     return (
         <>
@@ -25,62 +36,9 @@ export default function ExampleUseReducer() {
             >
                 Up x10
             </button>
-            <p>Your mark is {state.mark}</p>
-            <br />
-            <h1>Manage Order</h1>
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>ID order</th>
-                        <th>Table</th>
-                        <th>ordered product</th>
-                        <th>Amount</th>
-                        <th>order status</th>
-                        <th>pay order</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {stateOrder &&
-                        stateOrder.map((item, index) => (
-                            <tr key={item.id}>
-                                <td>{item.index + 1}</td>
-                                <td>{item.id}</td>
-                                <td>{item.table}</td>
-                                <td>
-                                    {item.products &&
-                                        item.products.map((product) => (
-                                            <p key={product.id}>
-                                                {product.name} -{" "}
-                                                {product.quantity}
-                                            </p>
-                                        ))}
-                                </td>
-                                <td>{item.totalBill} VND</td>
-                                <td>
-                                    {item.orderStatus && item.edit ? (
-                                        "Done"
-                                    ) : (
-                                        <select
-                                            className="form-select"
-                                            onChange
-                                        >
-                                            <option selected>
-                                                Chưa lên món
-                                            </option>
-                                            <option>Đã lên món</option>
-                                        </select>
-                                    )}
-                                </td>
-                                <td>
-                                    {item.orderStatus
-                                        ? "Đã thanh toán"
-                                        : "Chưa thanh toán"}
-                                </td>
-                            </tr>
-                        ))}
-                </tbody>
-            </table>
+            <p>
+                Your mark is <b>{state.mark}</b>
+            </p>
         </>
     );
 }
@@ -97,74 +55,3 @@ function reducer(state, action) {
             throw Error("Unknown action");
     }
 }
-
-function reducerOrder(state, action) {
-    switch (action.type) {
-        case "up":
-            return { mark: state.mark + 1 };
-        case "down":
-            return { mark: state.mark - 1 };
-        case "x10":
-            return { mark: state.mark * 10 };
-        default:
-            throw Error("Unknown action");
-    }
-}
-
-const orderList = [
-    {
-        id: "HD001",
-        table: "B01",
-        products: [
-            { id: "CF01", name: "Cà phê", quantity: 2, price: 15000 },
-            { id: "F01", name: "Nước ép cà rốt", quantity: 1, price: 20000 },
-        ],
-        totalBill: 50000,
-        orderStatus: false,
-        payStatus: false,
-    },
-    {
-        id: "HD002",
-        table: "B02",
-        products: [
-            { id: "CF01", name: "Cà phê", quantity: 2, price: 15000 },
-            { id: "F01", name: "Nước ép cà rốt", quantity: 1, price: 20000 },
-        ],
-        totalBill: 50000,
-        orderStatus: false,
-        payStatus: false,
-    },
-    {
-        id: "HD003",
-        table: "B03",
-        products: [
-            { id: "CF01", name: "Cà phê", quantity: 2, price: 15000 },
-            { id: "F01", name: "Nước ép cà rốt", quantity: 1, price: 20000 },
-        ],
-        totalBill: 50000,
-        orderStatus: false,
-        payStatus: false,
-    },
-    {
-        id: "HD004",
-        table: "B04",
-        products: [
-            { id: "CF01", name: "Cà phê", quantity: 2, price: 15000 },
-            { id: "F01", name: "Nước ép cà rốt", quantity: 1, price: 20000 },
-        ],
-        totalBill: 50000,
-        orderStatus: true,
-        payStatus: false,
-    },
-    {
-        id: "HD005",
-        table: "B05",
-        products: [
-            { id: "CF01", name: "Cà phê", quantity: 2, price: 15000 },
-            { id: "F01", name: "Nước ép cà rốt", quantity: 1, price: 20000 },
-        ],
-        totalBill: 50000,
-        orderStatus: true,
-        payStatus: true,
-    },
-];

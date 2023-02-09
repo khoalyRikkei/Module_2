@@ -5,6 +5,7 @@ import ExampleUseContext from "../pages/UseContext";
 import ExampleUseEffect from "../pages/UseEffect";
 import ExampleUseMemo from "../pages/UseMemo";
 import ExampleUseReducer from "../pages/UseReducer";
+import ExampleUseRef from "../pages/useRef";
 import ExampleUseState from "../pages/UseState";
 
 export const routes = [
@@ -47,5 +48,10 @@ export const routes = [
         title: "useContext",
         component: <ExampleUseContext />,
         path: "use-context",
+    },
+    {
+        title: "useRef",
+        component: <ExampleUseRef />,
+        path: "use-ref",
     },
 ];
